@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <style>
+            html {
+                background: #000;
+                color: #fff;
+            }
+        </style>
+        <script src="elm/main.js"></script>
+    </head>
+    <body>
+        <main></main>
+        <script>
+            var app = Elm.Main.init({ node: document.querySelector("main") });
+            // you can use ports and stuff here
+            app.ports.queryActiveFromDOM.subscribe(function () {
+                var id = document.activeElement
+                    ? document.activeElement.id
+                    : null;
+                console.log("focused: ", id);
+                app.ports.sendActiveToElm.send(id);
+            });
+        </script>
+    </body>
+</html>

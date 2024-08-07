@@ -1,55 +1,65 @@
-module Main exposing (..)
+port module Main exposing (main)
+
 import Browser
+import Browser.Dom
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput)
+import Html.Events exposing (..)
+import Maybe
+import Task
 
--- MAIN
-main = Browser.sandbox { init = init, update = update, view = view }
 
--- MODEL
-type alias Model =
-  { name : String
-  , password : String
-  , passwordAgain : String
-  }
+main : Program () Model Msg
+main = Browser.element { view          = view
+                       , init          = \_ -> init
+                       , update        = update
+                       , subscriptions = subscriptions
+                       }
 
-init : Model
-init = Model "" "" ""
+--Datatype
+type alias Model = { selected : Maybe String
+                   , ids      : List String
+                   }
 
--- UPDATE
-type Msg = Name String
-         | Password String
-         | PasswordAgain String
+type Msg = NoOp
+         | QueryActive
+         | ReceiveActive (Maybe String)
+         | Focus (Maybe String)
 
-update : Msg -> Model -> Model
+--Init
+init : ( Model, Cmd Msg )
+init = ( initialModel, Cmd.none )
+
+initialModel : Model
+initialModel = { selected = Nothing
+               , ids      = List.map String.fromInt (List.range 1 10) }
+
+-- Update
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  case msg of
-    Name name              -> { model | name = name }
-    Password password      -> { model | password = password }
-    PasswordAgain password -> { model | passwordAgain = password }
+    case msg of
+        NoOp                   -> ( model, Cmd.none )
+        QueryActive            -> ( model, queryActiveFromDOM () )
+        ReceiveActive selected -> ( { model | selected = selected }, Cmd.none )
+        Focus (Just selected)  -> ( model,  Cmd.batch [Task.attempt (always NoOp) (Browser.Dom.focus selected), queryActiveFromDOM ()] )
+        Focus Nothing          -> ( { model | selected = Nothing }, queryActiveFromDOM () )
 
--- VIEW
+-- Vie
 view : Model -> Html Msg
-view model =
-  div []
-    [ viewInput "text" "Name" model.name Name
-    , viewInput "password" "Password" model.password Password
-    , viewInput "password" "Re-enter Password" model.passwordAgain PasswordAgain
-    , viewValidation model
-    ]
+view model = div [] [ div [] [ text ("Currently selected: " ++ (Maybe.withDefault "" model.selected)) ]
+                    , div [] (List.map viewButton model.ids)
+                    , div [] (List.map viewInput model.ids)
+                    ]
 
-viewInput : String -> String -> String -> (String -> msg) -> Html msg
-viewInput t p v toMsg =
-  input [ type_ t, placeholder p, value v, onInput toMsg ] []
+viewButton : String -> Html Msg
+viewButton id = button [ onClick (Focus (Just id)) ] [ text id ]
 
-viewValidation : Model -> Html msg
-viewValidation model =
+viewInput : String -> Html Msg
+viewInput idstr = div [] [ input [ id idstr, placeholder idstr, onFocus (Focus (Just idstr)) ] [] ]--QueryActive ] [] ]
 
+port sendActiveToElm : (Maybe String -> msg) -> Sub msg
 
-  if      not (String.any Char.isUpper model.password) then div [ style "color" "red" ] [ text "Password has no uppercase letters!" ]
-  else if not (String.any Char.isLower model.password) then div [ style "color" "red" ] [ text "Password has no lowercase letters!" ]
-  else if not (String.any Char.isDigit model.password) then div [ style "color" "red" ] [ text "Password has no numeric characters!" ]
-  else if (String.length model.password) < 8           then div [ style "color" "red" ] [ text "Password too short!" ]
-  else if model.password /= model.passwordAgain        then div [ style "color" "red" ] [ text "Passwords do not match!" ]
-  else                                                      div [ style "color" "green" ] [ text "OK" ]
+port queryActiveFromDOM : () -> Cmd msg
+
+subscriptions : Model -> Sub Msg
+subscriptions _ = sendActiveToElm ReceiveActive
