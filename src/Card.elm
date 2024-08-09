@@ -5,6 +5,9 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Datatypes as D
 
-view : Int -> Html D.Msg
-view idn = let idstr = String.fromInt idn
-                in div [] [ input [ id idstr, onFocus (D.Focus idn) ] [] ]
+view : D.Card -> Html D.Msg
+view card = let idn   = card.id
+                idstr = String.fromInt idn
+            in div [] [ h1 [] [ text card.face ]
+                      , input [ id idstr, onFocus (D.Focus idn)
+                      ] [] ]

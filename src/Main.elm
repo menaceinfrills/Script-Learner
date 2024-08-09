@@ -7,6 +7,7 @@ import Html.Events exposing (..)
 import Maybe
 import Card
 import Datatypes as D
+import Init as I
 
 main : Program () D.Model D.Msg
 main = Browser.sandbox { view          = view
@@ -16,8 +17,7 @@ main = Browser.sandbox { view          = view
 
 --Init
 init : D.Model
-init = { selected = Nothing
-       , ids      = (List.range 1 10) }
+init = I.initCards I.cardList
 
 -- Update
 update : D.Msg -> D.Model -> D.Model
