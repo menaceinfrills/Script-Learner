@@ -1,11 +1,11 @@
 module Datatypes exposing (..)
 
-import Array exposing (..)
+type Msg = Focus Card
 
-type Msg = Focus Int
-
-type alias Model = { selected : Maybe Int
-                   , cards    : List Card
+type alias Model = { answer : String
+                   , selected : Maybe Card
+                   , previous : Maybe Card
+                   , deck    : List Card
                    }
 
 type alias Card = { id       : Int
@@ -14,7 +14,7 @@ type alias Card = { id       : Int
                   , answered : Answer
                   }
 
-type alias CardList = List (List (Face, Back))
+type alias CardList = List (Face, Back)
 
 type alias Face = String
 type alias Back = String -> Bool
