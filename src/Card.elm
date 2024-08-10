@@ -26,7 +26,7 @@ update card answer = case answer of
                                 else                     Just { card | answered = Wrong }
 
 updateDeck : List Card -> Maybe Card -> List Card
-updateDeck deck mcard = let changeCard deckC swapC  = if deckC.id == swapC.id then swapC
+updateDeck deck mcard = let changeCard swapC deckC = if deckC.id == swapC.id then swapC
                                                       else                         deckC
                         in case mcard of
                                 Nothing   -> deck
