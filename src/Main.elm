@@ -25,15 +25,16 @@ init = { answer = ""
 -- Update
 update : Msg -> Model -> Model
 update msg model = let newCard = case model.select of
-                                      Nothing -> model.select
+                                      Nothing   -> model.select
                                       Just card -> Card.update card model.answer
                    in case msg of
-                           Focus card    -> { model | select = Just card, deck = Card.updateDeck model.deck newCard }
+                           Focus card    -> if card.id == (Card.getID model.select) then model
+                                            else                              { model | select = Just card, deck = Card.updateDeck model.deck newCard }
                            Answer answer -> { model | answer = answer }
 
 -- View
 view : Model -> Html Msg
 view model = let idstr = Maybe.withDefault "" <| Maybe.map (String.fromInt << .id) <| model.select
-             in div [] [ div [] (List.map Card.view model.deck)
+             in div [] [ div [ class "card-box" ] (List.map Card.view model.deck)
                        , div [] [ text ("Currently selected: " ++ idstr) ]
                        ]
