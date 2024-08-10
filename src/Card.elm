@@ -9,12 +9,25 @@ view : Card -> Html Msg
 view card = let idn   = card.id
                 idstr = String.fromInt idn
             in div [] [ h1 [] [ text card.face ]
-                      , input [ id idstr, onFocus (Focus card)] []
+                      , p [] [text (viewAnswer card)]
+                      , input [ id idstr, onFocus (Focus card), onInput Answer ] []
                       ]
 
-update : Card -> String -> Card
+viewAnswer : Card -> String
+viewAnswer card = case card.answered of
+                       Unanswered -> "unanswered"
+                       Wrong      -> "wrong"
+                       Correct    -> "correct"
+
+update : Card -> String -> Maybe Card
 update card answer = case answer of
-                          "" -> { card | answered = Unanswered }
-                          _  -> case card.back answer of
-                                     True  -> { card | answered = Correct }
-                                     False -> { card | answered = Wrong }
+                          "" -> Nothing
+                          _  -> if card.back answer then Just { card | answered = Correct }
+                                else                     Just { card | answered = Wrong }
+
+updateDeck : List Card -> Maybe Card -> List Card
+updateDeck deck mcard = let changeCard deckC swapC  = if deckC.id == swapC.id then swapC
+                                                      else                         deckC
+                        in case mcard of
+                                Nothing   -> deck
+                                Just card -> List.map (changeCard card) deck

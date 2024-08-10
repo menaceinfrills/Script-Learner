@@ -18,19 +18,22 @@ main = Browser.sandbox { view   = view
 --Init
 init : Model
 init = { answer = ""
-       , selected = Maybe.Nothing
-       , previous = Maybe.Nothing
+       , select = Maybe.Nothing
        , deck = I.initCards I.cardList
        }
 
 -- Update
 update : Msg -> Model -> Model
-update msg model = case msg of
-                        Focus card  -> { model | previous = model.selected, selected = Just card }
+update msg model = let newCard = case model.select of
+                                      Nothing -> model.select
+                                      Just card -> Card.update card model.answer
+                   in case msg of
+                           Focus card    -> { model | select = Just card, deck = Card.updateDeck model.deck newCard }
+                           Answer answer -> { model | answer = answer }
 
 -- View
 view : Model -> Html Msg
-view model = let idstr = Maybe.withDefault "" <| Maybe.map (String.fromInt << .id) <| model.selected
+view model = let idstr = Maybe.withDefault "" <| Maybe.map (String.fromInt << .id) <| model.select
              in div [] [ div [] (List.map Card.view model.deck)
                        , div [] [ text ("Currently selected: " ++ idstr) ]
                        ]

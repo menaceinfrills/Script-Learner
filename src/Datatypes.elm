@@ -1,11 +1,11 @@
 module Datatypes exposing (..)
 
 type Msg = Focus Card
+         | Answer String
 
 type alias Model = { answer : String
-                   , selected : Maybe Card
-                   , previous : Maybe Card
-                   , deck    : List Card
+                   , select : Maybe Card
+                   , deck   : List Card
                    }
 
 type alias Card = { id       : Int
