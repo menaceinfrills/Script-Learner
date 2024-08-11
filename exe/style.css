@@ -22,7 +22,7 @@ html {
 }
 
 .wrong {
-    background-color: #550000;
+    background-color: #ff8800;
 }
 
 .card span {
@@ -31,6 +31,11 @@ html {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    text-shadow:
+        -1px -1px 0 #444,
+        1px -1px 0 #444,
+        -1px 1px 0 #444,
+        1px 1px 0 #444;
 }
 
 .card input {
@@ -48,4 +53,9 @@ html {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    text-shadow:
+        -1px -1px 0 #444,
+        1px -1px 0 #444,
+        -1px 1px 0 #444,
+        1px 1px 0 #444;
 }

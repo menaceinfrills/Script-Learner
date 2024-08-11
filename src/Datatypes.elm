@@ -17,7 +17,7 @@ type alias Card = { id       : Int
 type alias CardList = List (Face, Back)
 
 type alias Face = String
-type alias Back = String -> Bool
+type alias Back = List String
 
 type Answer = Unanswered
             | Wrong

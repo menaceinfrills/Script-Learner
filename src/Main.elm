@@ -29,7 +29,7 @@ update msg model = let newCard = case model.select of
                                       Just card -> Card.update card model.answer
                    in case msg of
                            Focus card    -> if card.id == (Card.getID model.select) then model
-                                            else                              { model | select = Just card, deck = Card.updateDeck model.deck newCard }
+                                            else                              { model | select = Just card, deck = Card.updateDeck model.deck newCard, answer = "" }
                            Answer answer -> { model | answer = answer }
 
 -- View
