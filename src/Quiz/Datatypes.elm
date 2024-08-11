@@ -1,12 +1,7 @@
-module Datatypes exposing (..)
+module Quiz.Datatypes exposing (..)
 
 type Msg = Focus Card
          | Answer String
-
-type alias Model = { answer : String
-                   , select : Maybe Card
-                   , deck   : List Card
-                   }
 
 type alias Card = { id       : Int
                   , face     : Face

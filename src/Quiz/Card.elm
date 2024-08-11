@@ -1,10 +1,10 @@
-module Card exposing (..)
+module Quiz.Card exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Datatypes exposing (..)
 import Array
+import Quiz.Datatypes exposing (..)
 
 view : Card -> Html Msg
 view card = let idn   = card.id

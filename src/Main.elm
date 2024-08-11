@@ -1,40 +1,33 @@
 module Main exposing (main)
 
 import Browser
+import Quiz.Quiz as Quiz
 import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Maybe
-import Card
-import Datatypes exposing (..)
-import Init as I
 
 main : Program () Model Msg
-main = Browser.sandbox { view   = view
-                       , init   = init
+main = Browser.sandbox { init = init
+                       , view = view
                        , update = update
                        }
 
---Init
+type alias Model = { screen   : Screen
+                   , substate : Substate
+                   }
+
+type Screen = Quiz
+           -- | Selection
+           -- | Results
+
+type alias Substate = Quiz.Model
+
+type alias Msg = Quiz.Msg
+
 init : Model
-init = { answer = ""
-       , select = Maybe.Nothing
-       , deck = I.initCards I.cardList
-       }
+init = { screen = Quiz, substate = Quiz.init }
 
--- Update
-update : Msg -> Model -> Model
-update msg model = let newCard = case model.select of
-                                      Nothing   -> model.select
-                                      Just card -> Card.update card model.answer
-                   in case msg of
-                           Focus card    -> if card.id == (Card.getID model.select) then model
-                                            else                              { model | select = Just card, deck = Card.updateDeck model.deck newCard, answer = "" }
-                           Answer answer -> { model | answer = answer }
-
--- View
 view : Model -> Html Msg
-view model = let idstr = Maybe.withDefault "" <| Maybe.map (String.fromInt << .id) <| model.select
-             in div [] [ div [ class "card-box" ] (List.map Card.view model.deck)
-                       , div [] [ text ("Currently selected: " ++ idstr) ]
-                       ]
+view model = case model.screen of
+                  Quiz -> Quiz.view model.substate
+
+update : Msg -> Model -> Model
+update msg model = { model | substate = Quiz.update msg model.substate }

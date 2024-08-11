@@ -1,7 +1,7 @@
-module Init exposing (initCards, cardList)
+module Quiz.Init exposing (initCards, cardList)
 
-import Card exposing (..)
-import Datatypes exposing (..)
+import Quiz.Card exposing (..)
+import Quiz.Datatypes exposing (..)
 
 initCards : CardList -> List Card
 initCards cards = List.map2 initCard (List.range 1 <| List.length cards) cards
