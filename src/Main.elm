@@ -1,8 +1,10 @@
 module Main exposing (main)
 
 import Browser
-import Quiz.Quiz as Quiz
 import Html exposing (..)
+import Quiz.Main as Quiz
+import Select.Main as Select
+import Quiz.Datatypes exposing (Msg(..))
 
 main : Program () Model Msg
 main = Browser.sandbox { init = init
@@ -10,24 +12,30 @@ main = Browser.sandbox { init = init
                        , update = update
                        }
 
-type alias Model = { screen   : Screen
-                   , substate : Substate
-                   }
+type alias Model = Substate
+type alias Msg = Quiz.Datatypes.Msg
 
-type Screen = Quiz
-           -- | Selection
+--type Screen = Quiz
+--            | Select
            -- | Results
 
-type alias Substate = Quiz.Model
+type Substate = QuizS Quiz.Model
+              | SelectS Select.Model
 
-type alias Msg = Quiz.Msg
+--type Msg = QuizMsg (Quiz.Msg)
+--         | SelectMsg (Select.Msg)
 
 init : Model
-init = { screen = Quiz, substate = Quiz.init }
+init = SelectS Select.init
 
 view : Model -> Html Msg
-view model = case model.screen of
-                  Quiz -> Quiz.view model.substate
+view model = case model of
+                  QuizS state -> (Quiz.view state)
+                  SelectS state -> (Select.view state)
 
 update : Msg -> Model -> Model
-update msg model = { model | substate = Quiz.update msg model.substate }
+update msg model = case msg of
+                   ToNextScreen -> QuizS Quiz.init
+                   _ -> case model of
+                        QuizS state   -> QuizS (Quiz.update msg state)
+                        SelectS state -> SelectS (Select.update msg state)

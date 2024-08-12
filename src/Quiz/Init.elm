@@ -1,5 +1,4 @@
-module Quiz.Init exposing (initCards, cardList)
-
+module Quiz.Init exposing (initCards)
 import Quiz.Card exposing (..)
 import Quiz.Datatypes exposing (..)
 
@@ -12,21 +11,3 @@ initCard id (face, back) = { id       = id
                            , back     = back
                            , answered = Unanswered
                            }
-
-cardList : CardList
-cardList = barakhadi
-
-barakhadi : CardList
-barakhadi = [ ("अ", ["a"])
-            , ("आ", ["aa"])
-            , ("इ", ["i"])
-            , ("ई", ["ii"])
-              , ("उ", ["u"])
-              , ("ऊ", ["uu"])
-              , ("ए", ["e"])
-              , ("ऐ", ["ai"])
-              , ("ओ", ["o"])
-              , ("औ", ["au"])
-              , ("अं", ["aM"])
-              , ("अः", ["aH"])
-              ]

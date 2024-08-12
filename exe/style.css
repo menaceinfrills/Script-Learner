@@ -9,6 +9,68 @@ html {
     justify-content: center;
 }
 
+.lang-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.select-box {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0.625rem 0;
+    border: 0.3vw solid #268bd2;
+    margin: 0.5rem 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    color: #268bd2;
+    background-color: #fff;
+}
+
+.select-box input {
+    clip: rect(0 0 0 0);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.check {
+    background-color: #268bd2;
+    color: #fff;
+}
+
+.select-box p {
+    display: inline;
+    margin: 0;
+
+    --color: #d5d5d5 !important;
+    background: transparent !important;
+}
+
+button {
+    border-radius: 1rem;
+    border: 1px solid #268bd2;
+    width: 10rem;
+    height: 5rem;
+    font-size: 1.5rem;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 3rem;
+    //box-shadow: 0 0.5rem #1d689e;
+    outline: none;
+    background-color: #268bd2;
+    color: #fff;
+}
+
 .card {
     border-radius: 1rem;
     width: 8rem;

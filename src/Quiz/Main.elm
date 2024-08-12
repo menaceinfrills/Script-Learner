@@ -1,4 +1,4 @@
-module Quiz.Quiz exposing (main, init, update, view, Model, Msg)
+module Quiz.Main exposing (init, update, view, Model, Msg)
 
 import Browser
 import Html exposing (..)
@@ -8,12 +8,7 @@ import Maybe
 import Quiz.Card as Card
 import Quiz.Datatypes exposing (..)
 import Quiz.Init as I
-
-main : Program () Model Msg
-main = Browser.sandbox { view   = view
-                       , init   = init
-                       , update = update
-                       }
+import CardList exposing (..)
 
 type alias Model = { answer : String
                    , select : Maybe Card
@@ -26,7 +21,7 @@ type alias Msg = Quiz.Datatypes.Msg
 init : Model
 init = { answer = ""
        , select = Maybe.Nothing
-       , deck = I.initCards I.cardList
+       , deck = I.initCards cardList
        }
 
 -- Update
@@ -38,6 +33,7 @@ update msg model = let newCard = case model.select of
                            Focus card    -> if card.id == (Card.getID model.select) then model
                                             else                              { model | select = Just card, deck = Card.updateDeck model.deck newCard, answer = "" }
                            Answer answer -> { model | answer = answer }
+                           _ -> model
 
 -- View
 view : Model -> Html Msg
