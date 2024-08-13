@@ -9,13 +9,14 @@ cardHeaders = [ "Monophthongs (अ)"
               , "Anusvāra & visarga (अः)"
               ]
 
-listFromHeaders : List String -> CardList
-listFromHeaders heads = let headRead head = case head of
-                                                 "Monophthongs (अ)" -> monophtongs
-                                                 "Sonorants (ऋ)" -> sonorants
-                                                 "Diphthongs (ए, ऐ)" -> diphthongs
-                                                 "Anusvāra & visarga (अः)" -> misc
-                                                 _ -> []
+listFromHeaders : List CardHead -> CardList
+listFromHeaders heads = let headRead head = if not head.check then []
+                                            else case head.name of
+                                                      "Monophthongs (अ)" -> monophtongs
+                                                      "Sonorants (ऋ)" -> sonorants
+                                                      "Diphthongs (ए, ऐ)" -> diphthongs
+                                                      "Anusvāra & visarga (अः)" -> misc
+                                                      _ -> []
                         in List.foldr (\x -> (++) (headRead x) ) [] heads
 
 

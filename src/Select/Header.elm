@@ -7,9 +7,10 @@ import Html.Events exposing (..)
 import Quiz.Datatypes exposing (Msg(..), CardHead)
 
 view : CardHead -> Html Msg
-view head = label [ class "select-box", class (checkfn head.check) ] [ input [type_ "checkbox", onCheck (\x -> Select { head | check = x }) ] []
-                            , p [] [ text head.name ]
-                            ]
+view head = label [ class "select-box", class (checkfn head.check) ]
+                  [ input [type_ "checkbox", onCheck (\x -> Select { head | check = x }) ] []
+                  , p [] [ text head.name ]
+                  ]
 
 checkfn : Bool -> String
 checkfn checked = if checked then "check"

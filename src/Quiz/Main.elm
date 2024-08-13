@@ -18,11 +18,11 @@ type alias Model = { answer : String
 type alias Msg = Quiz.Datatypes.Msg
 
 --Init
-init : Model
-init = { answer = ""
-       , select = Maybe.Nothing
-       , deck = I.initCards cardList
-       }
+init : List CardHead -> Model
+init heads = { answer = ""
+             , select = Maybe.Nothing
+             , deck = I.initCards <| listFromHeaders <| heads
+             }
 
 -- Update
 update : Msg -> Model -> Model

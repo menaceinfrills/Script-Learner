@@ -13,29 +13,23 @@ main = Browser.sandbox { init = init
                        }
 
 type alias Model = Substate
-type alias Msg = Quiz.Datatypes.Msg
-
---type Screen = Quiz
---            | Select
-           -- | Results
-
-type Substate = QuizS Quiz.Model
-              | SelectS Select.Model
-
---type Msg = QuizMsg (Quiz.Msg)
---         | SelectMsg (Select.Msg)
+type alias Msg   = Quiz.Datatypes.Msg
+type Substate    = QuizS Quiz.Model
+                 | SelectS Select.Model
 
 init : Model
 init = SelectS Select.init
 
 view : Model -> Html Msg
 view model = case model of
-                  QuizS state -> (Quiz.view state)
-                  SelectS state -> (Select.view state)
+                  QuizS state   -> Quiz.view state
+                  SelectS state -> Select.view state
 
 update : Msg -> Model -> Model
 update msg model = case msg of
-                   ToNextScreen -> QuizS Quiz.init
+                   ToQuizScreen -> case model of
+                                        SelectS state -> QuizS <| Quiz.init state
+                                        _             -> model
                    _ -> case model of
-                        QuizS state   -> QuizS (Quiz.update msg state)
-                        SelectS state -> SelectS (Select.update msg state)
+                        QuizS state   -> QuizS <| Quiz.update msg state
+                        SelectS state -> SelectS <| Select.update msg state

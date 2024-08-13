@@ -4,7 +4,7 @@ type Msg = Focus Card
          | Answer String
          | Select CardHead
          | ToNextScreen
-         | ToQuizScreen CardList
+         | ToQuizScreen
 
 type alias CardHead = { name : String
                       , check : Bool
