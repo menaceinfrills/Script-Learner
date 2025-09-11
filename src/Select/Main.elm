@@ -8,22 +8,36 @@ import Quiz.Datatypes exposing (Msg(..), CardHead)
 import CardList exposing (..)
 import Select.Header as Header
 
-type alias Model = List CardHead
-type alias Msg = Quiz.Datatypes.Msg
+type alias Model =
+  List CardHead
 
---type Msg = ToNextScreen
+type alias Msg = 
+  Quiz.Datatypes.Msg
+
+--type Msg = 
+--  ToNextScreen
 
 init : Model
-init = List.map (\x -> {name = x, check = False}) cardHeaders
+init = 
+  List.map 
+    (\x -> {name = x, check = False}) 
+    cardHeaders
 
 
 view : Model -> Html Msg
-view model = div [ class "lang-box" ]
-                 [ div [] (List.map Header.view model)
-                 , button [ onClick ToQuizScreen ] [ text "Start" ]
-                 ]
+view model = 
+  div 
+    [ class "lang-box" ]
+    [ div
+        []
+        (List.map Header.view model)
+    , button
+        [ onClick ToQuizScreen ]
+        [ text "Start" ]
+    ]
 
 update : Msg -> Model -> Model
-update msg model = case msg of
-                        Select card -> Header.updateHeads model card
-                        _           -> model
+update msg model = 
+  case msg of
+    Select card -> Header.updateHeads model card
+    _           -> model
