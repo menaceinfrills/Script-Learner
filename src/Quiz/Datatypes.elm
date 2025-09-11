@@ -15,10 +15,10 @@ type alias CardHead =
 
 type alias Card =
   { id       : Int
-  , tries    : Int
   , face     : Face
   , back     : Back
   , answered : Answer
+  , tries    : Int
   }
 
 type alias CardList = 

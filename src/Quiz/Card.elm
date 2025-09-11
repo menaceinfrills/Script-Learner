@@ -62,7 +62,7 @@ update card answer =
           else
             if (checkA answer card.back) 
               then Just { card | answered = Correct }
-              else Just { card | answered = Wrong   }
+              else Just { card | answered = Wrong, tries = card.tries + 1 }
 
 updateDeck : List Card -> Maybe Card -> List Card
 updateDeck deck mcard = 

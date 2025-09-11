@@ -65,5 +65,5 @@ view model =
       [ div 
           [ class "card-box" ] 
           (List.map Card.view model.deck)
-      , div [] [ text ("Currently selected: " ++ idstr) ]
+      -- , div [] [ text ("Currently selected: " ++ idstr) ] -- Debug info
       ]
