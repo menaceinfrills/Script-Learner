@@ -9,7 +9,8 @@ repl-temp-*
 
 # End of https://www.toptal.com/developers/gitignore/api/elm
 
-exe/elm
+# ignore elm build files
+build/elm
 
 # ignore jujutsu
 .jj/*
