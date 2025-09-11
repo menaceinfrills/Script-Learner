@@ -6,6 +6,8 @@ import Html.Events exposing (..)
 import Array
 import Quiz.Datatypes exposing (..)
 
+import Json.Decode as Decode
+
 view : Card -> Html Msg
 view card = 
   let 
@@ -18,7 +20,7 @@ view card =
     ]
     [ span [] [ text card.face ]
     , input [ 
-        id idstr, onFocus (Focus card)
+        id idstr, onBlur (Blur card), onFocus (Focus card)
       , onInput Answer
       , disabled (disableInput card) 
       ]
@@ -65,14 +67,14 @@ update card answer =
 updateDeck : List Card -> Maybe Card -> List Card
 updateDeck deck mcard = 
   let 
-    changeCard swapC deckC = 
-      if (deckC.id == swapC.id)
-        then swapC
-        else deckC
+    swapTarget target source = 
+      if (source.id == target.id)
+        then target
+        else source
   in 
     case mcard of
       Nothing   -> deck
-      Just card -> List.map (changeCard card) deck
+      Just card -> List.map (swapTarget card) deck
 
 getID : Maybe Card -> Int
 getID mcard = 

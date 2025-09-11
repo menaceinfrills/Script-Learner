@@ -36,13 +36,18 @@ update msg model =
       Just card -> Card.update card model.answer
   in 
     case msg of
+      Blur card     ->
+        { model 
+          | deck   = Card.updateDeck model.deck newCard
+          , answer = ""
+        }
+      
       Focus card    -> 
-        if card.id == (Card.getID model.select) 
+        if (card.id == (Card.getID model.select))
           then model
           else  
             { model 
               | select = Just card
-              , deck   = Card.updateDeck model.deck newCard
               , answer = ""
             }
       
@@ -60,5 +65,5 @@ view model =
       [ div 
           [ class "card-box" ] 
           (List.map Card.view model.deck)
-      --, div [] [ text ("Currently selected: " ++ idstr) ]
+      , div [] [ text ("Currently selected: " ++ idstr) ]
       ]

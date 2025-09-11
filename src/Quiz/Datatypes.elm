@@ -6,6 +6,7 @@ type Msg =
   | Select CardHead
   | ToNextScreen
   | ToQuizScreen
+  | Blur Card
 
 type alias CardHead = 
   { name : String
@@ -14,6 +15,7 @@ type alias CardHead =
 
 type alias Card =
   { id       : Int
+  , tries    : Int
   , face     : Face
   , back     : Back
   , answered : Answer

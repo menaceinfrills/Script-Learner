@@ -12,6 +12,7 @@ initCards cards =
 initCard : Int -> (Face, Back) -> Card
 initCard id (face, back) =
   { id       = id
+  , tries    = 0
   , face     = face
   , back     = back
   , answered = Unanswered
