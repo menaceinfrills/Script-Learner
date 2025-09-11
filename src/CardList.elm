@@ -21,7 +21,7 @@ listFromHeaders heads =
           "Sonorants (ऋ)"          -> sonorants
           "Diphthongs (ए, ऐ)"       -> diphthongs
           "Anusvāra & visarga (अः)" -> misc
-          _ -> []
+          _                        -> []
   in 
     List.foldr 
       (\x -> (++) (headRead x) ) 
