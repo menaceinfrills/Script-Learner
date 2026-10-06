@@ -1,3 +1,5 @@
+A simple script learner, heavily inspired by tofugu's "Kana Quiz"
+
 ⚠️ This application is a work in progress.
 
 A simple webapp for learning scripts, made in Elm.
