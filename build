@@ -1,0 +1,10 @@
+#! /bin/bash
+
+elm_main="src/Main.elm"
+build_dir="dist"
+
+mkdir -p ${build_dir}
+cp -ur pages/* "${build_dir}/"
+cp -ur assets "${build_dir}/"
+
+elm-make ${elm_main} --output="${build_dir}/elm.js"
